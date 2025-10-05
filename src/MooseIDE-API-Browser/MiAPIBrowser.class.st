@@ -20,6 +20,32 @@ MiAPIBrowser class >> mapClass [
 	^ MiAPIVisualization 
 ]
 
+{ #category : 'world menu' }
+MiAPIBrowser class >> menuCommandOn: aBuilder [
+
+	<worldMenu>
+	<miBrowsersMenu>
+	^ self buildMenuItemIn: aBuilder
+]
+
+{ #category : 'world menu' }
+MiAPIBrowser class >> menuItem [
+
+	^ #APIBrowser
+]
+
+{ #category : 'world menu' }
+MiAPIBrowser class >> menuLabel [
+
+	^ 'API Browser'
+]
+
+{ #category : 'world menu' }
+MiAPIBrowser class >> menuPriority [
+
+	^ self menuVisualizationToolsPriority + 5
+]
+
 { #category : 'instance creation' }
 MiAPIBrowser class >> newModel [
 
