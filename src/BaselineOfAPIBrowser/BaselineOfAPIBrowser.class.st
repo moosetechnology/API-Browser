@@ -11,20 +11,9 @@ BaselineOfAPIBrowser >> baseline: spec [
 	<baseline>
 	spec for: #common do: [
 		spec description: 'API Browser'.
-		self defineDependencies: spec.
+		"self defineDependencies: spec."
 		self definePackages: spec.
 		self defineGroups: spec ]
-]
-
-{ #category : 'baselines' }
-BaselineOfAPIBrowser >> defineDependencies: spec [
-
-	spec
-		baseline: 'MooseIDE'
-		with: [ 
-			spec
-				loads: #( 'default' );
-				repository: 'github://moosetechnology/MooseIDE' ]
 ]
 
 { #category : 'baselines' }
@@ -38,6 +27,6 @@ BaselineOfAPIBrowser >> defineGroups: spec [
 BaselineOfAPIBrowser >> definePackages: spec [
 
 	spec
-		package: 'MooseIDE-API-Browser' with: [ spec requires: #( MooseIDE ) ]
+		package: 'MooseIDE-API-Browser'
 
 ]
