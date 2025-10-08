@@ -190,17 +190,40 @@ MiAPIMapModel >> initialize [
 
 { #category : 'running' }
 MiAPIMapModel >> initializeLayers [
+	"populate the six layers with the entities from source that invok entities from target.
+	Entities are ordered to limit edge crossings
+	 - first gather all source packages from the invocations.
+	 - then get the classes ordered by their packages
+	 - then reorder the methods by their classes
+	 - For the target methods, they are ordered by their source methods"
 
-	layers := { 1 . 2 . 3 . 4 . 5 . 6 }.
-
-	layers at: 3 put: (self allInvocations collectAsSet: #source).
-	layers at: 2 put: (self srcMethodLayer collectAsSet: #parentType).
-	layers at: 1 put: (self srcClassLayer collectAsSet: #typeContainer).
-
-	layers at: 4 put: (self allInvocations collectAsSet: [:invok | invok target anyOne]).
-	layers at: 5 put: (self tgtMethodLayer collectAsSet: #parentType).
-	layers at: 6 put: (self tgtClassLayer collectAsSet: #typeContainer).
-
+	| srcPckg srcClass srcMth tgtMth tgtClass tgtPckg |
+	srcPckg := (self allInvocations
+		            collect: [ :invok |
+		            invok source parentType typeContainer ]
+		            as: OrderedCollection) removeDuplicates.
+	srcClass := srcPckg flatCollect: [ :p |
+			            p types select: [ :c |
+					            self allInvocations anySatisfy: [ :invok |
+						            invok source parentType = c ] ] ].
+	srcMth := srcClass flatCollect: [ :c |
+			          c methods select: [ :m |
+				          self allInvocations anySatisfy: [ :invok |
+					          invok source = m ] ] ].
+	tgtMth := (srcMth flatCollect: [ :m |
+			           (self allInvocations select: [ :invok |
+				            invok source = m ])
+				           collect: [ :invok | invok candidates anyOne ]
+				           as: OrderedCollection ]) removeDuplicates.
+	tgtClass := (tgtMth collect: #parentType) removeDuplicates.
+	tgtPckg := (tgtClass collect: #typeContainer) removeDuplicates.
+	layers := {
+		          srcPckg.
+		          srcClass.
+		          srcMth.
+		          tgtMth.
+		          tgtClass.
+		          tgtPckg }
 ]
 
 { #category : 'initialization' }
