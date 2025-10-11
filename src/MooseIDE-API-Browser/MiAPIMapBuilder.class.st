@@ -4,9 +4,6 @@ The builder for the MiAPIBrowser roassal visualization
 Class {
 	#name : 'MiAPIMapBuilder',
 	#superclass : 'HSimpleVisualizationBuilder',
-	#instVars : [
-		'nodeStyle'
-	],
 	#category : 'MooseIDE-API-Browser-browser',
 	#package : 'MooseIDE-API-Browser',
 	#tag : 'browser'
@@ -52,7 +49,7 @@ MiAPIMapBuilder >> buildNodes [
 { #category : 'accessing' }
 MiAPIMapBuilder >> defaultNodeStyle [
 
-	^self browser defaultNodeStyle
+	^MiArchitecturalMapStyle new
 ]
 
 { #category : 'accessing' }
@@ -210,10 +207,4 @@ MiAPIMapBuilder >> shapesFromFamixModels: famixEntities [
 MiAPIMapBuilder >> shapesToHighlightFor: anEntity [
 
 	^self shapesFromFamixModels: (self mapModel highlightList: anEntity)
-]
-
-{ #category : 'interactions' }
-MiAPIMapBuilder >> updateTags [ 
-
-	self browser updateTags 
 ]

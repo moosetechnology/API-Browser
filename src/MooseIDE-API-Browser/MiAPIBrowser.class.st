@@ -185,15 +185,3 @@ MiAPIBrowser >> shapesFromModels: famixEntities [
 	(self linkShapesFromModels: (famixEntities select: [ :fmx | fmx isAssociation ]))
 	
 ]
-
-{ #category : 'actions' }
-MiAPIBrowser >> updateTags [
-	| styler |
-	styler := self defaultNodeStyle.
-	mainPresenter currentCanvas shapes do: [ :sh |
-		sh isLine ifFalse: [
-			sh resetChildren.
-			styler buildCompositeEmptyNodeIn: sh
-		]
-	]
-]
