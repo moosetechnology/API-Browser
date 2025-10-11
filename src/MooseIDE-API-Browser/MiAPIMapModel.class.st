@@ -349,9 +349,12 @@ MiAPIMapModel >> relatedEntities: anEntity [
 MiAPIMapModel >> runVisualization [
 
 	mooseModel ifNil: [ ^self ].
+
 	allInvocations := nil.
 	mooseModel entities do: [ :fmx | fmx removeCache: #p16APIHNode ].
 	self initializeLayers.
+
+	browser updateToolbar.
 	^ browser runVisualization
 ]
 
