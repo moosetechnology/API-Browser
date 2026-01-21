@@ -6,7 +6,9 @@ Class {
 	#superclass : 'MiAbstractSettingsConfiguration',
 	#instVars : [
 		'accessedPrefix',
-		'clientPrefix'
+		'clientPrefix',
+		'providerBus',
+		'clientBus'
 	],
 	#category : 'MooseIDE-API-Browser-settings',
 	#package : 'MooseIDE-API-Browser',
@@ -26,6 +28,18 @@ MiAPIBrowserSettingsConfiguration >> accessedPrefix: anObject [
 ]
 
 { #category : 'accessing' }
+MiAPIBrowserSettingsConfiguration >> clientBus [
+
+	^clientBus
+]
+
+{ #category : 'accessing' }
+MiAPIBrowserSettingsConfiguration >> clientBus: anObject [
+
+	clientBus := anObject
+]
+
+{ #category : 'accessing' }
 MiAPIBrowserSettingsConfiguration >> clientPrefix [
 
 	^ clientPrefix
@@ -37,24 +51,38 @@ MiAPIBrowserSettingsConfiguration >> clientPrefix: anObject [
 	clientPrefix := anObject
 ]
 
+{ #category : 'accessing' }
+MiAPIBrowserSettingsConfiguration >> providerBus [
+
+	^ providerBus
+]
+
+{ #category : 'accessing' }
+MiAPIBrowserSettingsConfiguration >> providerBus: anObject [
+
+	providerBus := anObject
+]
+
 { #category : 'ui' }
 MiAPIBrowserSettingsConfiguration >> settingsPresenters [
 
 	^{
-	(MiTextFieldSettingPresenter on: self)
-		label: 'Provider prefix' ;
-	   help: 'The prefix name of accessed entities
-ex: the fully qualified name of a package.' ;
-		text: self accessedPrefix ;
-	   whenTextChangedDo: [ :txt | self accessedPrefix: txt ] ;
+	(MiDroplistSettingPresenter on: self)
+		label: 'Provider bus' ;
+	   help: 'The bus containing provider entities.' ;
+	   items: (MiApplication current buses) ;
+	   display: [ :aBus | aBus name ];
+		selectItem: self providerBus ;
+	   whenSelectedDo: [ :aBus | self providerBus: aBus ] ;
 		yourself
 	.
-	(MiTextFieldSettingPresenter on: self)
-		label: 'Client prefix' ;
-	   help: 'The prefix name of client entities
-ex: the fully qualified name of a package.' ;
-		text: self clientPrefix ;
-	   whenTextChangedDo: [ :txt | self clientPrefix: txt ] ;
+	(MiDroplistSettingPresenter on: self)
+		label: 'Client bus' ;
+	   help: 'The bus containing client entities.' ;
+	   items: (MiApplication current buses) ;
+	   display: [ :aBus | aBus name ];
+		selectItem: self clientBus ;
+	   whenSelectedDo: [ :aBus | self providerBus: aBus ] ;
 		yourself
 	}
 ]

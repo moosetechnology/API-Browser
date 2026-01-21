@@ -197,6 +197,11 @@ MiAPIMapModel >> initialize [
 
 	super initialize.
 
+	clientBusListener := MiAPIBusListener new
+		specModel: self.
+	providerBusListener := MiAPIBusListener new
+		specModel: self.
+	
 	self initializeSettings
 ]
 
