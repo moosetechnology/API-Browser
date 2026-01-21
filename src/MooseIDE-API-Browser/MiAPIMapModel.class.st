@@ -23,8 +23,8 @@ Class {
 		'mooseModel',
 		'layers',
 		'allInvocations',
-		'accessedPrefix',
-		'clientPrefix'
+		'clientBusListener',
+		'providerBusListener'
 	],
 	#category : 'MooseIDE-API-Browser-browser',
 	#package : 'MooseIDE-API-Browser',
@@ -38,6 +38,12 @@ MiAPIMapModel class >> defaultAccessedPrefix [
 ]
 
 { #category : 'settings management' }
+MiAPIMapModel class >> defaultClientBus [
+
+	^MiApplication current defaultBus
+]
+
+{ #category : 'settings management' }
 MiAPIMapModel class >> defaultClientPrefix [
 
 	^'fr.inria...'
@@ -47,21 +53,27 @@ MiAPIMapModel class >> defaultClientPrefix [
 MiAPIMapModel class >> defaultConfiguration [
 
 	^ MiAPIBrowserSettingsConfiguration new
-		  accessedPrefix: self defaultAccessedPrefix ;
-		  clientPrefix: self defaultClientPrefix ;
+		  clientBus: self defaultClientBus ;
+		  providerBus: self defaultProviderBus ;
 		  yourself
 ]
 
-{ #category : 'accessing' }
-MiAPIMapModel >> accessedPrefix [
+{ #category : 'settings management' }
+MiAPIMapModel class >> defaultProviderBus [
 
-	^accessedPrefix
+	^self ensureBusNamed: 'APIProvider'
 ]
 
-{ #category : 'accessing' }
-MiAPIMapModel >> accessedPrefix: aString [
+{ #category : 'settings management' }
+MiAPIMapModel class >> ensureBusNamed: aName [
+	"Ensure existance of a MiBus without changing the #defaultBus
+	 Note: normal behaviour is that a new MiBus automatically becomes defaultBus"
 
-	accessedPrefix := aString
+	| defaultBus namedBus |
+	defaultBus := MiApplication current defaultBus.
+	namedBus := MiApplication current busNamed: aName.
+	MiApplication current defaultBus: defaultBus.
+	^namedBus 
 ]
 
 { #category : 'accessing' }
@@ -117,23 +129,23 @@ MiAPIMapModel >> classParents: anEntity [
 ]
 
 { #category : 'accessing' }
-MiAPIMapModel >> clientPrefix [
+MiAPIMapModel >> clientBus [
 
-	^clientPrefix
+	^clientBusListener currentBus
 ]
 
 { #category : 'accessing' }
-MiAPIMapModel >> clientPrefix: aString [
+MiAPIMapModel >> clientBus: aMooseBus [
 
-	clientPrefix := aString
+	clientBusListener onBus: aMooseBus 
 ]
 
 { #category : 'settings management' }
 MiAPIMapModel >> currentConfiguration [
 
 	^ MiAPIBrowserSettingsConfiguration new
-		  accessedPrefix: self accessedPrefix ;
-		  clientPrefix: self clientPrefix ;
+		  providerBus: self providerBus ;
+		  clientBus: self clientBus ;
 		  yourself
 ]
 
@@ -229,7 +241,8 @@ MiAPIMapModel >> initializeLayers [
 { #category : 'initialization' }
 MiAPIMapModel >> initializeSettings [
 
-	self updateFromConfiguration: self defaultConfiguration.
+	clientBusListener  onBus: self class defaultClientBus .
+	providerBusListener onBus: self class defaultProviderBus.
 ]
 
 { #category : 'dependencies' }
@@ -331,6 +344,18 @@ MiAPIMapModel >> pairedMethods: anEntity [
 	^(self srcMethodLayer includes: anEntity)
 		ifTrue: [ self calledMethods: anEntity ]
 		ifFalse: [ self callingMethods: anEntity ]
+]
+
+{ #category : 'accessing' }
+MiAPIMapModel >> providerBus [
+
+	^providerBusListener currentBus 
+]
+
+{ #category : 'accessing' }
+MiAPIMapModel >> providerBus: aMooseBus [
+
+	providerBusListener onBus: aMooseBus 
 ]
 
 { #category : 'dependencies' }
@@ -454,8 +479,8 @@ MiAPIMapModel >> unselectRelatedTo: anEntity [
 { #category : 'settings management' }
 MiAPIMapModel >> updateFromConfiguration: aConfiguration [
 
-	self accessedPrefix: aConfiguration accessedPrefix.
-	self clientPrefix: aConfiguration clientPrefix.
+	self providerBus: aConfiguration providerBus.
+	self clientBus: aConfiguration clientBus.
 
 	self runVisualization
 ]
