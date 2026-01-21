@@ -143,6 +143,13 @@ MiAPIMapModel >> clientBus: aMooseBus [
 	clientBusListener onBus: aMooseBus 
 ]
 
+{ #category : 'as yet unclassified' }
+MiAPIMapModel >> closingBrowser [
+
+	clientBusListener unfollowBus.
+	providerBusListener unfollowBus
+]
+
 { #category : 'settings management' }
 MiAPIMapModel >> currentConfiguration [
 

@@ -77,6 +77,14 @@ MiAPIBrowser >> addToSelection: entities [
 	self canvas setSelectedShapes: shapesToHighlight , shapesHighlighted
 ]
 
+{ #category : 'window control' }
+MiAPIBrowser >> browserClosed [
+
+	super browserClosed.
+
+	specModel closingBrowser
+]
+
 { #category : 'testing' }
 MiAPIBrowser >> canFollowEntity: anObject [
 
