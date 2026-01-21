@@ -79,12 +79,15 @@ MiAPIMapModel class >> ensureBusNamed: aName [
 { #category : 'accessing' }
 MiAPIMapModel >> allInvocations [
 
+	| clientInvocations |
 	allInvocations ifNotNil: [ ^allInvocations ].
 	mooseModel ifNil: [ #() ].
 
-	^allInvocations := mooseModel allInvocations select: [ :i |
-		(self isClientEntity: i sender) and:
-		[ self isAccessedEntity: i candidates anyOne ] ]
+	clientInvocations := clientBusListener methods
+		flatCollect: [ :method | method outgoingInvocations ].
+
+	^allInvocations := clientInvocations select: [ :i |
+		self isAccessedEntity: i candidates anyOne ]
 
 ]
 
@@ -177,6 +180,16 @@ MiAPIMapModel >> entitiesHighlightList: anEntity [
 ]
 
 { #category : 'testing' }
+MiAPIMapModel >> hasEntities [
+	
+	clientBusListener methods ifEmpty: [^false].
+
+	providerBusListener methods ifEmpty: [^false].
+
+	^true
+]
+
+{ #category : 'testing' }
 MiAPIMapModel >> hasSettings [
 
 	^ true
@@ -262,7 +275,7 @@ MiAPIMapModel >> invocationsBetween: entities [
 { #category : 'accessing' }
 MiAPIMapModel >> isAccessedEntity: anEntity [
 
-	^anEntity mooseName beginsWith: self accessedPrefix 
+	^providerBusListener methods includes: anEntity 
 
 ]
 
@@ -306,14 +319,7 @@ MiAPIMapModel >> methodRelatedEntities: anEntity [
 { #category : 'accessing' }
 MiAPIMapModel >> mooseModel [
 
-	^ mooseModel
-]
-
-{ #category : 'accessing' }
-MiAPIMapModel >> mooseModel: anObject [
-
-	mooseModel := anObject.
-	"self runVisualization" 
+	^clientBusListener  methods anyOne mooseModel
 ]
 
 { #category : 'dependencies' }
@@ -373,12 +379,14 @@ MiAPIMapModel >> relatedEntities: anEntity [
 
 { #category : 'running' }
 MiAPIMapModel >> runVisualization [
-
-	mooseModel ifNil: [ ^self ].
+1halt.
+	self hasEntities ifFalse: [ ^self ].
 
 	allInvocations := nil.
-	mooseModel entities do: [ :fmx | fmx removeCache: #p16APIHNode ].
+	self mooseModel entities do: [ :fmx | fmx removeCache: #p16APIHNode ].
 	self initializeLayers.
+
+	browser ifNil: [ "not fully initialized yet" ^self ].
 
 	browser updateToolbar.
 	^ browser runVisualization

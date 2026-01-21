@@ -101,7 +101,6 @@ MiAPIBrowser >> followEntity: anEntity [
 	| mooseModel |
 	mooseModel := self getMooseModel: anEntity.
 	super followEntity: mooseModel.
-	self specModel mooseModel: mooseModel
 ]
 
 { #category : 'accessing' }
