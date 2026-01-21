@@ -87,7 +87,7 @@ MiAPIMapModel >> allInvocations [
 		flatCollect: [ :method | method outgoingInvocations ].
 
 	^allInvocations := clientInvocations select: [ :i |
-		self isAccessedEntity: i candidates anyOne ]
+		self isProviderEntity: i candidates anyOne ]
 
 ]
 
@@ -143,7 +143,7 @@ MiAPIMapModel >> clientBus: aMooseBus [
 	clientBusListener onBus: aMooseBus 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'running' }
 MiAPIMapModel >> closingBrowser [
 
 	clientBusListener unfollowBus.
@@ -279,17 +279,10 @@ MiAPIMapModel >> invocationsBetween: entities [
 		]
 ]
 
-{ #category : 'accessing' }
-MiAPIMapModel >> isAccessedEntity: anEntity [
+{ #category : 'testing' }
+MiAPIMapModel >> isProviderEntity: anEntity [
 
 	^providerBusListener methods includes: anEntity 
-
-]
-
-{ #category : 'accessing' }
-MiAPIMapModel >> isClientEntity: anEntity [
-
-	^anEntity mooseName beginsWith: self clientPrefix
 
 ]
 
@@ -386,7 +379,7 @@ MiAPIMapModel >> relatedEntities: anEntity [
 
 { #category : 'running' }
 MiAPIMapModel >> runVisualization [
-1halt.
+
 	self hasEntities ifFalse: [ ^self ].
 
 	allInvocations := nil.

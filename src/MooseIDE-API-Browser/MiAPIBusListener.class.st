@@ -7,8 +7,7 @@ Class {
 	#name : 'MiAPIBusListener',
 	#superclass : 'MiAbstractVisualizationBrowser',
 	#instVars : [
-		'methods',
-		'myBus'
+		'methods'
 	],
 	#category : 'MooseIDE-API-Browser-browser',
 	#package : 'MooseIDE-API-Browser',
