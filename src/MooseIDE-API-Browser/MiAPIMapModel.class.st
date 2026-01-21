@@ -211,27 +211,23 @@ MiAPIMapModel >> initializeLayers [
 	Entities are ordered to limit edge crossings
 	 - first gather all source packages from the invocations.
 	 - then get the classes ordered by their packages
-	 - then reorder the methods by their classes
+	 - then order the methods by their classes
 	 - For the target methods, they are ordered by their source methods"
 
 	| srcPckg srcClass srcMth tgtMth tgtClass tgtPckg |
 	srcPckg := (self allInvocations
-		            collect: [ :invok |
-		            invok source parentType typeContainer ]
-		            as: OrderedCollection) removeDuplicates.
+		collect: [ :invok | invok source parentType typeContainer ]
+		as: OrderedCollection) removeDuplicates.
 	srcClass := srcPckg flatCollect: [ :p |
-			            p types select: [ :c |
-					            self allInvocations anySatisfy: [ :invok |
-						            invok source parentType = c ] ] ].
+		p types select: [ :c |
+			self allInvocations anySatisfy: [ :invok | invok source parentType = c ] ] ].
 	srcMth := srcClass flatCollect: [ :c |
-			          c methods select: [ :m |
-				          self allInvocations anySatisfy: [ :invok |
-					          invok source = m ] ] ].
+		c methods select: [ :m |
+			self allInvocations anySatisfy: [ :invok | invok source = m ] ] ].
 	tgtMth := (srcMth flatCollect: [ :m |
-			           (self allInvocations select: [ :invok |
-				            invok source = m ])
-				           collect: [ :invok | invok candidates anyOne ]
-				           as: OrderedCollection ]) removeDuplicates.
+		(self allInvocations select: [ :invok | invok source = m ])
+			collect: [ :invok | invok candidates anyOne ]
+			as: OrderedCollection ]) removeDuplicates.
 	tgtClass := (tgtMth collect: #parentType) removeDuplicates.
 	tgtPckg := (tgtClass collect: #typeContainer) removeDuplicates.
 	layers := {
