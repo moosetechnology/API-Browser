@@ -125,20 +125,6 @@ MiAPIBrowser >> hasSettings [
 	^true
 ]
 
-{ #category : 'initialization' }
-MiAPIBrowser >> initializeLayout [
-
-	self layout: (SpScrollableLayout with: mainPresenter)
-]
-
-{ #category : 'initialization' }
-MiAPIBrowser >> initializePresenters [
-
-	mainPresenter := self class mapClass owner: self.
-	specModel browser: self.
-	self initializeLayout
-]
-
 { #category : 'accessing' }
 MiAPIBrowser >> linkShapesFromModels: associations [
 
