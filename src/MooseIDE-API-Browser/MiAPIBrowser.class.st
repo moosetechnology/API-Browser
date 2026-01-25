@@ -1,10 +1,14 @@
 "
-A visualization showing API dependencies between 2 ""subsystems""
-Currently very specialized for Corese-core and Corese-command
-(see `P16APIMapModel >> #allInvocations`)
+A visualization showing dependencies between 2 ""subsystems"" (client and provider)
+This is specialized for OO systems and expect three level of entities: Package/Class/Method
+Differently to other browsers, this one has 2 buses on which it receives the entities of each ""subsystem""
+
+Accepted entities: (on each bus) Source entities that are either methods or method containers
 
 Use:
-  Launch it and propagate a full corese model to it
+- Launch it,
+- optionnaly set the buses to listen in ""Settings""
+- propagate entities of each ""subsystem"" on the correct bus
 "
 Class {
 	#name : 'MiAPIBrowser',
@@ -56,7 +60,9 @@ MiAPIBrowser class >> newModel [
 MiAPIBrowser class >> open [
 
 	<script>
-	^ super open
+	^super open
+		finishedInitialization ;
+		yourself
 ]
 
 { #category : 'specs' }
@@ -103,22 +109,25 @@ MiAPIBrowser >> defaultNodeStyle [
 	^MiArchitecturalMapStyle new
 ]
 
-{ #category : 'buses' }
-MiAPIBrowser >> followBus: aBus [
-	"In other browsers, displaying start on #followEntity: but this browser has 2 buses and behaves differently,
-	 so we strat display on #followBus: which marks the end of initialization"
-
-	super followBus: aBus.
+{ #category : 'actions' }
+MiAPIBrowser >> finishedInitialization [
 
 	specModel runVisualization 
 ]
 
+{ #category : 'buses' }
+MiAPIBrowser >> followBus: aBus [
+	"this browser has 2 buses  (client and provider)
+	 the usual followed bus is the same as the clientBus"
+
+	super followBus: aBus.
+	specModel followBus: aBus
+]
+
 { #category : 'actions' }
 MiAPIBrowser >> followEntity: anEntity [
-
-	| mooseModel |
-	mooseModel := self getMooseModel: anEntity.
-	super followEntity: mooseModel.
+	"Do not do anything here
+	 This browser has 2 buses and receiving entities from buses is handled elsewhere (in the model)"
 ]
 
 { #category : 'accessing' }

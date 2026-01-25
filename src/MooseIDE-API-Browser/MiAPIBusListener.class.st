@@ -17,7 +17,9 @@ Class {
 { #category : 'testing' }
 MiAPIBusListener >> canFollowEntity: anObject [
 
-	^anObject isMooseObject
+	^anObject isCollection
+		ifTrue:  [ anObject anySatisfy: [ :each | self canFollowEntity: each ] ]
+		ifFalse: [ anObject usesFamixTrait: TEntityMetaLevelDependency ]
 ]
 
 { #category : 'accessing' }
@@ -56,7 +58,7 @@ MiAPIBusListener >> onBus: aMiBus [
 	self unfollowBus.
 	self followBus: aMiBus.
 
-	application defaultBus: aMiBus.
+	application defaultBus: defaultBus.
 
 ]
 
