@@ -103,6 +103,16 @@ MiAPIBrowser >> defaultNodeStyle [
 	^MiArchitecturalMapStyle new
 ]
 
+{ #category : 'buses' }
+MiAPIBrowser >> followBus: aBus [
+	"In other browsers, displaying start on #followEntity: but this browser has 2 buses and behaves differently,
+	 so we strat display on #followBus: which marks the end of initialization"
+
+	super followBus: aBus.
+
+	specModel runVisualization 
+]
+
 { #category : 'actions' }
 MiAPIBrowser >> followEntity: anEntity [
 
@@ -121,6 +131,15 @@ MiAPIBrowser >> getMooseModel: aMooseObject [
 
 { #category : 'testing' }
 MiAPIBrowser >> hasSettings [
+
+	^true
+]
+
+{ #category : 'testing' }
+MiAPIBrowser >> isFullyInitialized [
+
+	specModel ifNil: [ ^false ].
+	mainPresenter ifNil: [ ^false ].
 
 	^true
 ]

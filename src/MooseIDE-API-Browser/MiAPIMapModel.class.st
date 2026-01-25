@@ -221,8 +221,7 @@ MiAPIMapModel >> initialize [
 		specModel: self.
 	providerBusListener := MiAPIBusListener new
 		specModel: self.
-	
-	self initializeSettings
+
 ]
 
 { #category : 'running' }
@@ -277,6 +276,14 @@ MiAPIMapModel >> invocationsBetween: entities [
 		collect: [ :invok |
 			invok source -> invok target anyOne
 		]
+]
+
+{ #category : 'testing' }
+MiAPIMapModel >> isFullyInitialized [
+
+	self hasEntities ifFalse: [ ^false ].
+	browser ifNil: [ ^false ].
+	^browser isFullyInitialized
 ]
 
 { #category : 'testing' }
@@ -380,7 +387,7 @@ MiAPIMapModel >> relatedEntities: anEntity [
 { #category : 'running' }
 MiAPIMapModel >> runVisualization [
 
-	self hasEntities ifFalse: [ ^self ].
+	self isFullyInitialized ifFalse: [ ^self ].
 
 	allInvocations := nil.
 	self mooseModel entities do: [ :fmx | fmx removeCache: #p16APIHNode ].

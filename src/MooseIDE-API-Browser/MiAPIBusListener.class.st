@@ -5,7 +5,7 @@ The whole thing so that `MiAPIBrowser` can follow 2 buses
 "
 Class {
 	#name : 'MiAPIBusListener',
-	#superclass : 'MiAbstractVisualizationBrowser',
+	#superclass : 'MiAbstractBrowser',
 	#instVars : [
 		'methods'
 	],
