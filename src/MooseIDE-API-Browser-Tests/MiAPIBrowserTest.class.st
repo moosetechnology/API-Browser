@@ -52,6 +52,33 @@ MiAPIBrowserTest >> testActivateActionButtons [
 ]
 
 { #category : 'tests - settings' }
+MiAPIBrowserTest >> testLayers [
+	"check that the model has the correct layers after propagatin entities to the buses"
+
+	| mooseModel |
+	mooseModel := FamixStModel new.
+	self populateBrowser: mooseModel.
+
+	self assert: browser specModel srcPackageLayer size equals: 1.
+	self assert: browser specModel srcPackageLayer anyOne name equals: 'clientPackage'.
+
+	self assert: browser specModel srcClassLayer size equals: 1.
+	self assert: browser specModel srcClassLayer anyOne name equals: 'clientClass'.
+
+	self assert: browser specModel srcMethodLayer size equals: 1.
+	self assert: browser specModel srcMethodLayer anyOne name equals: 'clientMethod'.
+
+	self assert: browser specModel tgtPackageLayer size equals: 1.
+	self assert: browser specModel tgtPackageLayer anyOne name equals: 'providerPackage'.
+
+	self assert: browser specModel tgtClassLayer size equals: 1.
+	self assert: browser specModel tgtClassLayer anyOne name equals: 'providerClass'.
+
+	self assert: browser specModel tgtMethodLayer size equals: 1.
+	self assert: browser specModel tgtMethodLayer anyOne name equals: 'providerMethod'.
+]
+
+{ #category : 'tests - settings' }
 MiAPIBrowserTest >> testSettingsAction [
 
 	self assert: browser hasSettings
