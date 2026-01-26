@@ -48,13 +48,7 @@ MiAPIBrowserTest >> providerBus [
 { #category : 'tests' }
 MiAPIBrowserTest >> testActivateActionButtons [
 
-	self skip: 'currently not handling entity selection and re-propagation'
-]
-
-{ #category : 'tests - buses' }
-MiAPIBrowserTest >> testFollowBusSetsDefaultBus [
-
-	self skip: 'Different Bus behavior for this browser'
+	self skip: 'currently not handling entity selection, inspection, or propagation'
 ]
 
 { #category : 'tests - settings' }
