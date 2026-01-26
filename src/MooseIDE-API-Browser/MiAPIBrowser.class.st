@@ -115,15 +115,6 @@ MiAPIBrowser >> finishedInitialization [
 	specModel runVisualization 
 ]
 
-{ #category : 'buses' }
-MiAPIBrowser >> followBus: aBus [
-	"this browser has 2 buses  (client and provider)
-	 the usual followed bus is the same as the clientBus"
-
-	super followBus: aBus.
-	specModel followBus: aBus
-]
-
 { #category : 'actions' }
 MiAPIBrowser >> followEntity: anEntity [
 	"Do not do anything here

@@ -186,14 +186,6 @@ MiAPIMapModel >> entitiesHighlightList: anEntity [
 	^#()
 ]
 
-{ #category : 'buses' }
-MiAPIMapModel >> followBus: aBus [
-	"this browser has 2 buses  (client and provider)
-	 the usual followed bus is the same as the clientBus"
-
-	clientBusListener onBus: aBus
-]
-
 { #category : 'testing' }
 MiAPIMapModel >> hasEntities [
 	

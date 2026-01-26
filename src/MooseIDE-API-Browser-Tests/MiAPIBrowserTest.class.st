@@ -12,15 +12,6 @@ MiAPIBrowserTest >> browserClass [
 ]
 
 { #category : 'running' }
-MiAPIBrowserTest >> bus [
-	"Should not be necessary, but the APIBrowser messes with buses out of ordinary
-	 So trying to ensure we are on safe groung.
-	 This is called by setup to set the defautlBus"
-
-	^ self application busNamed: self application class defaultBusName
-]
-
-{ #category : 'running' }
 MiAPIBrowserTest >> clientBus [
 
 	^browser specModel clientBus 
@@ -64,33 +55,6 @@ MiAPIBrowserTest >> testActivateActionButtons [
 MiAPIBrowserTest >> testFollowBusSetsDefaultBus [
 
 	self skip: 'Different Bus behavior for this browser'
-]
-
-{ #category : 'tests - buses' }
-MiAPIBrowserTest >> testFollowOtherBus [
-	"Must redefine this test because of the way APIBrowser handles buses"
-
-	| otherBus oldDefaultBus |
-	self skip: #TODO.
-	
-	oldDefaultBus := self bus.
-	otherBus := self application busNamed: 'Other bus'.
-	browser followBus: otherBus.
-
-	self assert: browser buses size equals: 2.
-
-	self
-		assertCollection: browser buses
-		hasSameElements: {
-			oldDefaultBus .
-			otherBus .
-			MiAPIMapModel defaultProviderBus
-		}. 
-
-	self assert: (oldDefaultBus browsers includes: browser).
-	self assert: (self bus browsers includes: browser).
-
-	self assert: browser busButton label equals: '2 buses'
 ]
 
 { #category : 'tests - settings' }
