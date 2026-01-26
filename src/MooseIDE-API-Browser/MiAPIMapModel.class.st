@@ -26,9 +26,9 @@ Class {
 		'clientBusListener',
 		'providerBusListener'
 	],
-	#category : 'MooseIDE-API-Browser-browser',
+	#category : 'MooseIDE-API-Browser-Model',
 	#package : 'MooseIDE-API-Browser',
-	#tag : 'browser'
+	#tag : 'Model'
 }
 
 { #category : 'settings management' }
