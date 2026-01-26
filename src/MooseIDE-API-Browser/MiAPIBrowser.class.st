@@ -127,7 +127,7 @@ MiAPIBrowser >> followBus: aBus [
 { #category : 'actions' }
 MiAPIBrowser >> followEntity: anEntity [
 	"Do not do anything here
-	 This browser has 2 buses and receiving entities from buses is handled elsewhere (in the model)"
+	 This browser has 2 buses and receiving entities is handled by 2 `MiAPIBusListner_s"
 ]
 
 { #category : 'accessing' }
