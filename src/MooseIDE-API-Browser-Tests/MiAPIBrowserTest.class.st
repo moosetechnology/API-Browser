@@ -83,3 +83,24 @@ MiAPIBrowserTest >> testSettingsAction [
 
 	self assert: browser hasSettings
 ]
+
+{ #category : 'tests - settings' }
+MiAPIBrowserTest >> testUnregisterFromBusOnClose [
+
+	| clientBus providerBus |
+	clientBus := MiAPIMapModel defaultClientBus.
+	providerBus := MiAPIMapModel defaultProviderBus.
+
+	self assert: clientBus browsers size equals: 2. "browser and MiBusListener"
+	self assert: browser specModel clientBus equals: clientBus.
+
+	self assert: providerBus browsers size equals: 1. "MiBusListener"
+	self assert: browser specModel providerBus equals: providerBus.
+
+	browser window close.
+	self assert: browser specModel clientBus equals: nil.
+	self assert: browser specModel providerBus equals: nil.
+	self assert: clientBus browsers size equals: 0.
+	self assert: providerBus browsers size equals: 0
+
+]

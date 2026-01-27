@@ -62,6 +62,15 @@ MiAPIBusListener >> onBus: aMiBus [
 
 ]
 
+{ #category : 'debugging actions' }
+MiAPIBusListener >> terminate [
+	"there should be only on MiBus in #buses
+	 but we can as well prepare for the worse"
+
+	[ buses isEmpty ]
+		whileFalse: [ self unfollowBus ]
+]
+
 { #category : 'actions' }
 MiAPIBusListener >> unfollowBus [
 

@@ -16,6 +16,14 @@ MiAPIBusListenerTest >> setUp [
 	listener := MiAPIBusListener new
 ]
 
+{ #category : 'running' }
+MiAPIBusListenerTest >> tearDown [ 
+
+	listener terminate.
+
+	super tearDown.
+]
+
 { #category : 'tests' }
 MiAPIBusListenerTest >> testCanFollowEntity [
 
@@ -92,4 +100,19 @@ MiAPIBusListenerTest >> testUnFollowBus [
 
 	listener unfollowBus .
 	self assert: aBus browsers size equals: 0
+]
+
+{ #category : 'tests' }
+MiAPIBusListenerTest >> testUnregisterOnClose [
+
+	| aBus |
+	aBus := application defaultBus.
+
+	listener onBus: application defaultBus.
+	self assert: listener currentBus equals: aBus.
+	self assert: aBus browsers size equals: 1.
+
+	listener terminate.
+	self assert: listener currentBus equals: nil.
+	self assert: aBus browsers size equals: 0.
 ]
