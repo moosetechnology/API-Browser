@@ -3,7 +3,7 @@ The builder for the MiAPIBrowser roassal visualization
 "
 Class {
 	#name : 'MiAPIMapBuilder',
-	#superclass : 'HSimpleVisualizationBuilder',
+	#superclass : 'MiAbstractHierarchicalMapBuilder',
 	#category : 'MooseIDE-API-Browser-browser',
 	#package : 'MooseIDE-API-Browser',
 	#tag : 'browser'

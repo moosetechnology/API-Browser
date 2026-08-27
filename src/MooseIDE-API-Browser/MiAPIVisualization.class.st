@@ -3,10 +3,7 @@ Roassal visaulization for `MiAPIBrowser`
 "
 Class {
 	#name : 'MiAPIVisualization',
-	#superclass : 'MiAbstractVisualization',
-	#instVars : [
-		'builder'
-	],
+	#superclass : 'MiAbstractHierarchicalVisualization',
 	#category : 'MooseIDE-API-Browser-browser',
 	#package : 'MooseIDE-API-Browser',
 	#tag : 'browser'
