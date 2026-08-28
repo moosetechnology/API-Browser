@@ -78,3 +78,8 @@ MiAPIBusListener >> unfollowBus [
 		self unfollowBus: currentBus ].
 
 ]
+
+{ #category : 'toolbar' }
+MiAPIBusListener >> updateToolbar [
+	"no toolbar, this is a fake browser"
+]

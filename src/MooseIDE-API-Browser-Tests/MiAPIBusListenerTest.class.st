@@ -19,7 +19,10 @@ MiAPIBusListenerTest >> setUp [
 { #category : 'running' }
 MiAPIBusListenerTest >> tearDown [ 
 
-	listener terminate.
+	listener ifNotNil: [ 
+		listener terminate.
+		listener withWindowDo: [ :window | window close ]
+	].
 
 	super tearDown.
 ]
